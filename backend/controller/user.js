@@ -252,7 +252,7 @@ router.put(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const user = await User.findById(req.user.id);
-
+      console.log(req.body);
       const sameTypeAddress = user.addresses.find(
         (address) => address.addressType === req.body.addressType
       );

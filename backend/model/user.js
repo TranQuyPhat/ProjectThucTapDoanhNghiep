@@ -25,7 +25,10 @@ const userSchema = new mongoose.Schema({
       country: {
         type: String,
       },
-      state: {
+      stateId: {
+        type: String,
+      },
+      stateName: {
         type: String,
       },
       city: {
