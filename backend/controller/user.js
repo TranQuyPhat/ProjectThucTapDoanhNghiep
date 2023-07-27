@@ -321,13 +321,11 @@ router.put(
       );
 
       if (!isPasswordMatched) {
-        return next(new ErrorHandler("Old password is incorrect!", 400));
+        return next(new ErrorHandler("Mật khẩu cũ không chính xác!", 400));
       }
 
       if (req.body.newPassword !== req.body.confirmPassword) {
-        return next(
-          new ErrorHandler("Password doesn't matched with each other!", 400)
-        );
+        return next(new ErrorHandler("Mật khẩu không đúng!", 400));
       }
       user.password = req.body.newPassword;
 
@@ -335,7 +333,7 @@ router.put(
 
       res.status(200).json({
         success: true,
-        message: "Password updated successfully!",
+        message: "Thay đổi mật khẩu thành công!",
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -343,7 +341,7 @@ router.put(
   })
 );
 
-// find user infoormation with the userId
+// find user information with the userId
 router.get(
   "/user-info/:id",
   catchAsyncErrors(async (req, res, next) => {
@@ -359,56 +357,5 @@ router.get(
     }
   })
 );
-
-// // all users --- for admin
-// router.get(
-//   "/admin-all-users",
-//   isAuthenticated,
-//   isAdmin("Admin"),
-//   catchAsyncErrors(async (req, res, next) => {
-//     try {
-//       const users = await User.find().sort({
-//         createdAt: -1,
-//       });
-//       res.status(201).json({
-//         success: true,
-//         users,
-//       });
-//     } catch (error) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   })
-// );
-
-// // delete users --- admin
-// router.delete(
-//   "/delete-user/:id",
-//   isAuthenticated,
-//   isAdmin("Admin"),
-//   catchAsyncErrors(async (req, res, next) => {
-//     try {
-//       const user = await User.findById(req.params.id);
-
-//       if (!user) {
-//         return next(
-//           new ErrorHandler("User is not available with this id", 400)
-//         );
-//       }
-
-//       const imageId = user.avatar.public_id;
-
-//       await cloudinary.v2.uploader.destroy(imageId);
-
-//       await User.findByIdAndDelete(req.params.id);
-
-//       res.status(201).json({
-//         success: true,
-//         message: "User deleted successfully!",
-//       });
-//     } catch (error) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   })
-// );
 
 module.exports = router;
