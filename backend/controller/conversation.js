@@ -11,7 +11,8 @@ router.post(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const { groupTitle, userId, sellerId } = req.body;
-
+      console.log(req.body);
+      console.log(groupTitle);
       const isConversationExist = await Conversation.findOne({ groupTitle });
 
       if (isConversationExist) {
@@ -32,7 +33,7 @@ router.post(
         });
       }
     } catch (error) {
-      return next(new ErrorHandler(error.response.message), 500);
+      return next(new ErrorHandler(error), 500);
     }
   })
 );
